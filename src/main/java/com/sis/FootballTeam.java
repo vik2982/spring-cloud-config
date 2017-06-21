@@ -131,8 +131,8 @@ public class FootballTeam {
 		this.dateOfCreation = dateOfCreation;
 	}
 	
-	public boolean equals (Object footBallTeam){
-		FootballTeam team = (FootballTeam) footBallTeam;
+	public boolean equals (Object footballTeam){
+		FootballTeam team = (FootballTeam) footballTeam;
 		return getName().equalsIgnoreCase(team.getName());
 	}
 	

@@ -53,10 +53,10 @@ public class FootballTeamController {
 	}
 	
 	@RequestMapping(
-			value = "/{team}", 
-			method = RequestMethod.GET, 
-			produces = "application/json"
-		)
+		value = "/{team}", 
+		method = RequestMethod.GET, 
+		produces = "application/json"
+	)
 	public FootballTeam getTeam(@PathVariable("team") String team) throws FootballTeamException {
 
 		for (FootballTeam footballTeam : footballTeams){
@@ -71,10 +71,10 @@ public class FootballTeamController {
 	}
 	
 	@RequestMapping(
-			value = "/capacity", 
-			method = RequestMethod.GET, 
-			produces = "application/json"
-		)
+		value = "/capacity", 
+		method = RequestMethod.GET, 
+		produces = "application/json"
+	)
 	public List<FootballTeam> sortByCapacity(@RequestParam("sort") String sort) {
 		
 		if (sort.equals(ASC)){
@@ -97,10 +97,10 @@ public class FootballTeamController {
 	}
 	
 	@RequestMapping(
-			value = "/create", 
-			method = RequestMethod.POST, 
-			produces = "application/json"
-		)
+		value = "/create", 
+		method = RequestMethod.POST, 
+		produces = "application/json"
+	)
 	public List<FootballTeam> createTeam(@RequestBody FootballTeam team) throws FootballTeamException {
 		
 		if (footballTeams.contains(team)){	
