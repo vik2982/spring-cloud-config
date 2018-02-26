@@ -1,4 +1,4 @@
-# sis test
+# Spring boot rest controller example
 
 ### Prerequisites
 

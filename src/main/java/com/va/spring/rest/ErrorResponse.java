@@ -1,4 +1,4 @@
-package com.sis;
+package com.va.spring.rest;
 
 public class ErrorResponse {
 
