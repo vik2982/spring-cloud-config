@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    tools {
+        maven "3.8.6" // You need to add a maven with name "3.8.6" in the Global Tools Configuration page
+    }
     
     stages {
         stage("init") {
@@ -9,7 +13,7 @@ pipeline {
         }
         stage("build") {
             steps {
-               echo 'build'
+               sh "mvn clean install"
             }
         }
         stage("test") {
