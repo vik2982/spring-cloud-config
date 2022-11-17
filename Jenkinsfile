@@ -11,19 +11,21 @@ pipeline {
                echo 'init'
             }
         }
-        stage("build") {
+        stage("build, unit test and bdd") {
             steps {
                sh "mvn clean install"
             }
         }
-        stage("test") {
+        stage("sonar") {
             steps {
                echo 'test'
             }
         }
-        stage("deploy") {
-            steps {
-               echo 'deploy'
+         stage('Build docker image'){
+            steps{
+                script{
+                    sh 'docker build -t footie-app:1.0 .'
+                }
             }
         }
     }   
