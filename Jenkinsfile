@@ -21,10 +21,21 @@ pipeline {
                echo 'test'
             }
         }
-         stage('Build docker image'){
+        stage('Build docker image'){
             steps{
                 script{
                     sh 'docker build -t footie-app:1.0 .'
+                }
+            }
+        }
+        stage('Upload docker image'){
+            steps{
+                script{
+                    //Need to create credentials with docker login
+                    withCredentials([string(credentialsId: 'docker-login', variable: 'dockerhubpwd')]) {
+                       sh 'docker login -u vikrantardhawa -p ${dockerhubpwd}'
+                       sh 'docker push vikrantardhawa/footie-app:1.0'
+                    }
                 }
             }
         }
