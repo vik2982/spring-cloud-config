@@ -4,7 +4,9 @@ pipeline {
     tools {
         maven "3.8.6" // You need to add a maven with name "3.8.6" in the Global Tools Configuration page
     }
-    
+    environment { 
+        PORT = '8085'
+    }
     stages {
         stage("build and unit test") {
             steps {
@@ -20,12 +22,17 @@ pipeline {
         }
         stage("run docker container") {
             steps {
-               sh "docker-compose -f docker-compose.yaml up"
+               sh "docker-compose -f docker-compose.yaml up -d -e HOST_PORT="${PORT}"
             }
         }
         stage("bdds") {
             steps {
-               sh "mvn clean install -Pjenkins"
+               sh "mvn test"
+            }
+        }
+        stage("stop docker container") {
+            steps {
+               sh "docker-compose -f docker-compose.yaml down"
             }
         }
         stage('Upload docker image'){
