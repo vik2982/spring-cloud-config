@@ -20,7 +20,7 @@ pipeline {
         }
         stage("run docker container") {
             steps {
-               sh "mvn clean install -Pjenkins"
+               sh "docker-compose -f docker-compose.yaml up"
             }
         }
         stage("bdds") {
