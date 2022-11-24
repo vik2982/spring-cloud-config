@@ -6,6 +6,8 @@
 * Maven 3.0+
 
 ### How to Run
+
+#### Standalone
 Open a command prompt and in the same directory as the pom run:
 ```
 mvn spring-boot:run
@@ -14,6 +16,13 @@ Alternatively:
 ```
 mvn clean package -PexcludeBdds
 java -jar target/football-team-rest-service-1.0.jar
+```
+
+#### Docker
+```
+mvn clean package -PexcludeBdds
+docker build -t footie-app:1.0 .
+docker-compose -f docker-compose.yaml up
 ```
 
 ### URLS
