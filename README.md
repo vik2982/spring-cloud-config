@@ -12,7 +12,7 @@ mvn spring-boot:run
 ```
 Alternatively:
 ```
-mvn clean package
+mvn clean package -PexcludeBdds
 java -jar target/football-team-rest-service-1.0.jar
 ```
 

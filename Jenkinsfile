@@ -6,19 +6,9 @@ pipeline {
     }
     
     stages {
-        stage("init") {
+        stage("build and unit test") {
             steps {
-               echo 'init'
-            }
-        }
-        stage("build, unit test and bdd") {
-            steps {
-               sh "mvn clean install"
-            }
-        }
-        stage("sonar") {
-            steps {
-               echo 'test'
+               sh "mvn clean install -PexcludeBdds"
             }
         }
         stage('Build docker image'){
@@ -26,6 +16,16 @@ pipeline {
                 script{
                     sh 'docker build -t footie-app:1.0 .'
                 }
+            }
+        }
+        stage("run docker container") {
+            steps {
+               sh "mvn clean install -Pjenkins"
+            }
+        }
+        stage("bdds") {
+            steps {
+               sh "mvn clean install -Pjenkins"
             }
         }
         stage('Upload docker image'){
