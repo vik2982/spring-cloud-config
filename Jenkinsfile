@@ -5,7 +5,7 @@ pipeline {
         maven "3.8.6" // You need to add a maven with name "3.8.6" in the Global Tools Configuration page
     }
     environment { 
-        PORT = '8085'
+        HOST_PORT = '8085'
     }
     stages {
         stage("build and unit test") {
@@ -22,7 +22,7 @@ pipeline {
         }
         stage("run docker container") {
             steps {
-               sh "docker-compose -f docker-compose.yaml up -d -e HOST_PORT="${PORT}"
+               sh 'docker-compose -f docker-compose.yaml up -d'
             }
         }
         stage("bdds") {

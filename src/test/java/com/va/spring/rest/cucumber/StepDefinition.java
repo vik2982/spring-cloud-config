@@ -20,7 +20,7 @@ public class StepDefinition {
 	
 	@Given("^I Set GET service api endpoint$")
     public void setGetEndpoint() {
-		getUri = "http://localhost:8085/"+footballTeamName;
+		getUri = "http://localhost:"+System.getProperty("jenkins.hostPort")+"/"+footballTeamName;
 		
 	}
 	
