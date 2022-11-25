@@ -14,7 +14,7 @@ mvn spring-boot:run
 ```
 Alternatively:
 ```
-mvn clean package -PexcludeBdds
+mvn clean package -PskipBdds
 java -jar target/football-team-rest-service-1.0.jar
 ```
 
@@ -42,10 +42,14 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "dateOfCreation": "17/07/2012"
 }' 'http://localhost:8080/create'
 ```
+
+### BDDS
+
+mvn test -Djenkins.hostPort=8080
+
 ### Tools used
 Predominantly used Spring Boot for following reasons:
 * Simple to create production grade stand-alone applications
 * Easy dependency management - makes pom easy to read
 * Embedded servlet container support
 * @RestController renders JSON response by default
-

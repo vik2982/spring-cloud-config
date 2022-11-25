@@ -34,19 +34,13 @@
 	    <artifactId>cucumber-java</artifactId>
 	    <version>${cucumber.version}</version>
 	    <scope>test</scope>
-	</dependency>
-	<dependency>
-	    <groupId>io.cucumber</groupId>
-	    <artifactId>cucumber-junit</artifactId>
-	    <version>${cucumber.version}</version>
-	    <scope>test</scope>
-	</dependency>
-	<!--<dependency>
-	    <groupId>io.cucumber</groupId>
-	    <artifactId>cucumber-spring</artifactId>
-	    <version>${cucumber.version}</version>
-	    <scope>test</scope>
-	</dependency> -->
+	  </dependency>
+		<dependency>
+		    <groupId>io.cucumber</groupId>
+		    <artifactId>cucumber-junit</artifactId>
+		    <version>${cucumber.version}</version>
+		    <scope>test</scope>
+		</dependency>
 	</dependencies>
 	
 	<build>
@@ -61,7 +55,7 @@
 	
 	<profiles>
 	   <profile>
-            <id>excludeBdds</id>
+            <id>skipBdds</id>
             <build>
                 <plugins>
                     <plugin>

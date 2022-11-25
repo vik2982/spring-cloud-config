@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage("build and unit test") {
             steps {
-               sh "mvn clean install -PexcludeBdds"
+               sh "mvn clean install -PskipBdds"
             }
         }
         stage('Build docker image'){
