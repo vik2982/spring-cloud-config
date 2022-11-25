@@ -24,6 +24,7 @@ mvn clean package -PskipBdds
 docker build -t footie-app:1.0 .
 docker-compose -f docker-compose.yaml up
 ```
+NOTE: When running docker locally port 8080 is used by default as specified in docker-compose.yaml.  In the jenkins pipeline the port is set in the jenkinsFile - environment variable HOST_PORT
 
 ### URLS
 
