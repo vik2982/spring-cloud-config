@@ -27,7 +27,7 @@ pipeline {
         }
         stage("bdds") {
             steps {
-               sh "mvn test"
+               sh "mvn test -Djenkins.hostPort=${HOST_PORT}"
             }
         }
         stage("stop docker container") {
