@@ -20,7 +20,7 @@ java -jar target/football-team-rest-service-1.0.jar
 
 #### Docker
 ```
-mvn clean package -PexcludeBdds
+mvn clean package -PskipBdds
 docker build -t footie-app:1.0 .
 docker-compose -f docker-compose.yaml up
 ```
