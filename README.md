@@ -2,7 +2,7 @@
 
 ### Prerequisites
 
-* JDK 1.8+
+* JDK 11
 * Maven 3.0+
 
 ### How to Run
