@@ -13,6 +13,13 @@ pipeline {
                sh "mvn clean install -PskipBdds"
             }
         }
+        stage ('Sonar') {
+            steps {
+               withSonarQubeEnv(installationName: 'Sonar', credentialsId: 'sonarqube-token') {
+                sh 'mvn clean package sonar:sonar'
+                }
+            }
+        }
         stage('Build docker image'){
             steps{
                 script{
