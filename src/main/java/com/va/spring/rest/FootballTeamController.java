@@ -12,10 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,21 +42,14 @@ public class FootballTeamController {
 		};
 	}
 
-	@RequestMapping(
-		value = "/", 
-		method = RequestMethod.GET, 
-		produces = "application/json"
-	)
+
+	@GetMapping
 	public List<FootballTeam> allTeams() {
 		
 		return footballTeams;
 	}
 	
-	@RequestMapping(
-		value = "/{team}", 
-		method = RequestMethod.GET, 
-		produces = "application/json"
-	)
+	@GetMapping("/{team}")
 	public FootballTeam getTeam(@PathVariable("team") String team) throws FootballTeamException {
 
 		for (FootballTeam footballTeam : footballTeams){
@@ -70,11 +63,7 @@ public class FootballTeamController {
 		throw new FootballTeamException("No Team found");
 	}
 	
-	@RequestMapping(
-		value = "/capacity", 
-		method = RequestMethod.GET, 
-		produces = "application/json"
-	)
+	@GetMapping("/capacity")
 	public List<FootballTeam> sortByCapacity(@RequestParam("sort") String sort) {
 		
 		if (sort.equals(ASC)){
@@ -96,11 +85,7 @@ public class FootballTeamController {
 		return footballTeams;
 	}
 	
-	@RequestMapping(
-		value = "/create", 
-		method = RequestMethod.POST, 
-		produces = "application/json"
-	)
+	@PostMapping("/create")
 	public List<FootballTeam> createTeam(@RequestBody FootballTeam team) throws FootballTeamException {
 		
 		if (footballTeams.contains(team)){	

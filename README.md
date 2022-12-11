@@ -10,20 +10,17 @@
 #### Standalone
 Open a command prompt and in the same directory as the pom run:
 ```
-mvn spring-boot:run
-```
-Alternatively:
-```
 mvn clean package -PskipBdds
-java -jar target/football-team-rest-service-1.0.jar
+mvn spring-boot:run OR java -jar target/football-team-rest-service-1.0.jar
 ```
 
 #### Docker
 ```
 mvn clean package -PskipBdds
 docker build -t footie-app:1.0 .
-docker-compose -f docker-compose.yaml up
+docker-compose -f docker-compose.yaml up -d
 ```
+
 NOTE: When running docker locally port 8080 is used by default as specified in docker-compose.yaml.  In the jenkins pipeline the port is set in the jenkinsFile - environment variable HOST_PORT
 
 ### URLS
@@ -43,6 +40,8 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "dateOfCreation": "17/07/2012"
 }' 'http://localhost:8080/create'
 ```
+
+Swagger/OpenApi 3.0 accessible at http://localhost:8080/swagger-ui.html
 
 ### BDDS
 
