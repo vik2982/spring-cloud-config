@@ -95,12 +95,6 @@ public class FootballTeamController {
 		return footballTeams;
 	}
 	
-	@Operation(summary = "Create a team")
-	@ApiResponses(value = { 
-	  @ApiResponse(responseCode = "200", description = "Team created", 
-	    content = { @Content(mediaType = "application/json", 
-	      schema = @Schema(implementation = FootballTeam.class)) })
-	})
 	@PostMapping("/create")
 	public List<FootballTeam> createTeam(@RequestBody FootballTeam team) throws FootballTeamException {
 		
