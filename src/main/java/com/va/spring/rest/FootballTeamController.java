@@ -9,15 +9,17 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 public class FootballTeamController {
@@ -49,8 +51,15 @@ public class FootballTeamController {
 		return footballTeams;
 	}
 	
+	@Operation(summary = "Get a team by its name")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Found the team", 
+	    content = { @Content(mediaType = "application/json", 
+	      schema = @Schema(implementation = FootballTeam.class)) }),
+	  @ApiResponse(responseCode = "404", description = "Team not found", 
+	    content = @Content) })
 	@GetMapping("/{team}")
-	public FootballTeam getTeam(@PathVariable("team") String team) throws FootballTeamException {
+	public FootballTeam getTeam(@PathVariable("team") String team) throws FootballTeamNotFoundException {
 
 		for (FootballTeam footballTeam : footballTeams){
 			
@@ -60,8 +69,9 @@ public class FootballTeamController {
 		}
 		
 		logger.error("Team not found for provided path variable");
-		throw new FootballTeamException("No Team found");
+		throw new FootballTeamNotFoundException("No Team found");
 	}
+	
 	
 	@GetMapping("/capacity")
 	public List<FootballTeam> sortByCapacity(@RequestParam("sort") String sort) {
@@ -85,6 +95,12 @@ public class FootballTeamController {
 		return footballTeams;
 	}
 	
+	@Operation(summary = "Create a team")
+	@ApiResponses(value = { 
+	  @ApiResponse(responseCode = "200", description = "Team created", 
+	    content = { @Content(mediaType = "application/json", 
+	      schema = @Schema(implementation = FootballTeam.class)) })
+	})
 	@PostMapping("/create")
 	public List<FootballTeam> createTeam(@RequestBody FootballTeam team) throws FootballTeamException {
 		
@@ -97,14 +113,5 @@ public class FootballTeamController {
 		
 		return footballTeams;
 	}
-	
-	@ExceptionHandler(FootballTeamException.class)
-    public ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
-
-        ErrorResponse error = new ErrorResponse();
-        error.setMessage(ex.getMessage());
-        return new ResponseEntity<ErrorResponse>(error, HttpStatus.OK);
-
-    }
 
 }
