@@ -1,4 +1,4 @@
-package com.va.spring.rest;
+package com.va.spring.rest.model;
 
 import java.util.Date;
 

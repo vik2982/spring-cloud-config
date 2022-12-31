@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.va.spring.rest.FootballTeam;
+import com.va.spring.rest.model.FootballTeam;
 
 public class StepDefinition {
 	
