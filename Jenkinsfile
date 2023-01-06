@@ -8,9 +8,9 @@ pipeline {
         HOST_PORT = '8085'
     }
     stages {
-        stage("build and unit test") {
+        stage("unit test") {
             steps {
-               sh "mvn clean install -PskipBdds"
+               sh "mvn clean test"
             }
         }
         stage ('Sonar') {
@@ -20,21 +20,22 @@ pipeline {
                 }
             }
         }
-        stage('Build docker image'){
+        stage("Run bdds against standalone tomcat") {
+            steps {
+               sh "mvn clean verify -Pintegration-tests"
+            }
+        }
+        stage('Build docker image and run container'){
             steps{
                 script{
                     sh 'docker build -t footie-app:1.0 .'
+                    sh 'docker-compose -f docker-compose.yaml up -d'
                 }
             }
         }
-        stage("run docker container") {
+        stage("Run bdds against docker container") {
             steps {
-               sh 'docker-compose -f docker-compose.yaml up -d'
-            }
-        }
-        stage("bdds") {
-            steps {
-               sh "mvn test -Djenkins.hostPort=${HOST_PORT}"
+               sh "mvn failsafe:integration-test -Dtest.server.port=${HOST_PORT}"
             }
         }
         stage("stop docker container") {
@@ -45,6 +46,7 @@ pipeline {
         stage('Upload docker image'){
             steps{
                 script{
+                	sh 'docker build -t vikrantardhawa/footie-app:1.0 .'
                     //Need to create credentials with docker login
                     withCredentials([string(credentialsId: 'docker-login', variable: 'dockerhubpwd')]) {
                        sh 'docker login -u vikrantardhawa -p ${dockerhubpwd}'

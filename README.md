@@ -10,13 +10,15 @@
 #### Standalone
 Open a command prompt and in the same directory as the pom run:
 ```
-mvn clean package -PskipBdds
-mvn spring-boot:run OR java -jar target/football-team-rest-service-1.0.jar
+mvn spring-boot:run  
+OR
+mvn clean package 
+java -jar target/football-team-rest-service-1.0.jar
 ```
 
 #### Docker
 ```
-mvn clean package -PskipBdds
+mvn clean package
 docker build -t footie-app:1.0 .
 docker-compose -f docker-compose.yaml up -d
 ```
@@ -45,7 +47,7 @@ Swagger/OpenApi 3.0 accessible at http://localhost:8080/swagger-ui.html
 
 ### BDDS
 
-mvn test -Djenkins.hostPort=8080
+mvn clean verify -Pintegration-tests
 
 ### Tools used
 Predominantly used Spring Boot for following reasons:

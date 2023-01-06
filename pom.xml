@@ -17,14 +17,14 @@
 		<cucumber.version>7.9.0</cucumber.version>
 		<springdoc.version>1.6.4</springdoc.version>
 
-
-		<!-- JaCoCo Properties -->
+		<!-- JaCoCo and sonar properties -->
 		<jacoco.version>0.8.8</jacoco.version>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.language>java</sonar.language>
 		<sonar.coverage.exclusions>**/model/**/*</sonar.coverage.exclusions>
+
 	</properties>
 
 
@@ -73,11 +73,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.4.0.905</version>
 			</plugin>
+
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -103,24 +105,151 @@
 					</execution>
 				</executions>
 			</plugin>
+
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.9.1</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/it/java</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-resource</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-test-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/it/resources</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Plugin used by jenkins pipeline to run bdds against docker container -->
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12</version>
+				<configuration>
+					<testSourceDirectory>src/it/java</testSourceDirectory>
+					<includes>
+						<include>**/*IT.java</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
 
 	<profiles>
+		<!--BDD profile -->
 		<profile>
-			<id>skipBdds</id>
+			<id>integration-tests</id>
 			<build>
 				<plugins>
+
+					<!-- Plugin for network port reservation -->
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>reserve-network-port</id>
+								<goals>
+									<goal>reserve-network-port</goal>
+								</goals>
+								<!-- Needs to be done before pre-integration-test phase so that it is available for the spring boot plugin -->
+								<phase>package</phase>
+								<configuration>
+									<portNames>
+										<portName>tomcat.http.port</portName>
+									</portNames>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!--start springboot in pre-integration-test phase -->
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>pre-integration-test</id>
+								<goals>
+									<goal>start</goal>
+								</goals>
+								<configuration>
+									<arguments>
+										<argument>--server.port=${tomcat.http.port}</argument>
+									</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>post-integration-test</id>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- skip unit tests execution -->
+					<plugin>
+
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>3.0.0-M7</version>
 						<configuration>
-							<excludes>
-								<exclude>**/CucumberIntegrationTest.java</exclude>
-							</excludes>
+							<skip>true</skip>
 						</configuration>
+					</plugin>
+
+					<!-- run bdds -->
+					<!-- to run directly: mvn failsafe:integration-test -P integration-tests -->
+					<plugin>
+
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.12</version>
+						<configuration>
+							<testSourceDirectory>src/it/java</testSourceDirectory>
+							<includes>
+								<include>**/*IT.java</include>
+							</includes>
+							<systemPropertyVariables>
+								<test.server.port>${tomcat.http.port}</test.server.port>
+							</systemPropertyVariables>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
