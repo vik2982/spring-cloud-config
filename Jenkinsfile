@@ -35,6 +35,8 @@ pipeline {
         }
         stage("Run bdds against docker container") {
             steps {
+               echo 'Waiting 1 minute for docker container to start'
+               sleep 60
                sh "mvn failsafe:integration-test -Dtest.server.port=${HOST_PORT}"
             }
         }
