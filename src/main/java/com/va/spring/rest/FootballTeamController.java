@@ -60,7 +60,8 @@ public class FootballTeamController {
 	    content = { @Content(mediaType = "application/json", 
 	      schema = @Schema(implementation = FootballTeam.class)) }),
 	  @ApiResponse(responseCode = "404", description = "Team not found", 
-	    content = @Content) })
+	    content = { @Content(mediaType = "application/json", 
+	      schema = @Schema(implementation = ErrorResponse.class)) }) })
 	@GetMapping("/{team}")
 	public FootballTeam getTeam(@PathVariable("team") String team) throws FootballTeamNotFoundException {
 
