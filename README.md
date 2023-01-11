@@ -10,7 +10,7 @@
 #### Standalone
 Open a command prompt and in the same directory as the pom run:
 ```
-mvn spring-boot:run  
+mvn spring-boot:run (to run dev profile with debug log levels and access to h2 console do: mvn spring-boot:run -Dspring-boot.run.profiles=dev) 
 OR
 mvn clean package 
 java -jar target/football-team-rest-service-1.0.jar
@@ -48,6 +48,12 @@ Swagger/OpenApi 3.0 accessible at http://localhost:8080/swagger-ui.html
 ### BDDS
 
 mvn clean verify -Pintegration-tests
+
+### H2
+Console url: http://localhost:8080/h2-console/  
+Database url: jdbc:h2:mem:testdb  
+username: sa  
+password is empty  
 
 ### Tools used
 Predominantly used Spring Boot for following reasons:

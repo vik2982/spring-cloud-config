@@ -1,14 +1,10 @@
 package com.va.spring.rest;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,27 +27,15 @@ public class FootballTeamController {
 
 	private static final String ASC = "asc";
 	private static final String DESC = "desc";
-	
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	
-	private List<FootballTeam> footballTeams;
-	
-	public FootballTeamController() throws ParseException{
-		footballTeams = new ArrayList<FootballTeam>(){
-			{
-				add(new FootballTeam("spurs","london","daniel levy",30000,"Premier League",22,dateFormat.parse("20/07/1901")));
-				add(new FootballTeam("man utd","manchester","glazers",60000,"Champions League",18,dateFormat.parse("20/07/1955")));
-				add(new FootballTeam("chelsea","london","abramhovic",40000,"Premier League",30,dateFormat.parse("20/07/2004")));
-				
-			}
-		};
-	}
+		
+	@Autowired
+	FootballTeamRepository footballTeamRepository;
 
 
 	@GetMapping
 	public List<FootballTeam> allTeams() {
 		
-		return footballTeams;
+		return footballTeamRepository.findAll();
 	}
 	
 	@Operation(summary = "Get a team by its name")
@@ -64,52 +48,42 @@ public class FootballTeamController {
 	      schema = @Schema(implementation = ErrorResponse.class)) }) })
 	@GetMapping("/{team}")
 	public FootballTeam getTeam(@PathVariable("team") String team) throws FootballTeamNotFoundException {
-
-		for (FootballTeam footballTeam : footballTeams){
-			
-			if (footballTeam.getName().equalsIgnoreCase(team)){
-				return footballTeam;
-			}
-		}
 		
+		FootballTeam returnTeam =  footballTeamRepository.findByName(team);
+		
+		if (returnTeam != null){
+			return returnTeam;
+		}
 		logger.error("Team not found for provided path variable");
 		throw new FootballTeamNotFoundException("No Team found");
 	}
 	
 	
 	@GetMapping("/capacity")
-	public List<FootballTeam> sortByCapacity(@RequestParam("sort") String sort) {
+	public List<FootballTeam> sortByCapacity(@RequestParam("sort") String sort) throws FootballTeamException {
 		
 		if (sort.equals(ASC)){
-			class TeamCompareAsc implements Comparator<FootballTeam> {
-		        public int compare(FootballTeam teamOne, FootballTeam teamTwo) {
-		        	return Integer.compare(teamOne.getStadiumCapacity(), teamTwo.getStadiumCapacity());
-		        }
-		    }
-			Collections.sort (footballTeams, new TeamCompareAsc());
+			return footballTeamRepository.findByOrderByStadiumCapacityAsc();
 		}else if (sort.equals(DESC)){
-			class TeamCompareDesc implements Comparator<FootballTeam> {
-		        public int compare(FootballTeam teamOne, FootballTeam teamTwo) {
-		        	return Integer.compare(teamTwo.getStadiumCapacity(), teamOne.getStadiumCapacity());
-		        }
-		    }
-			Collections.sort (footballTeams, new TeamCompareDesc());
+			return footballTeamRepository.findByOrderByStadiumCapacityDesc();
 		}
 		
-		return footballTeams;
+		logger.error("Invalid query param");
+		throw new FootballTeamException("Invalid query param");
 	}
 	
 	@PostMapping("/create")
 	public List<FootballTeam> createTeam(@RequestBody FootballTeam team) throws FootballTeamException {
 		
+		List<FootballTeam> footballTeams = footballTeamRepository.findAll();
 		if (footballTeams.contains(team)){	
 			logger.error("Cannot create team as it already exists");
 			throw new FootballTeamException("Team already exists");
 		}
 		
-		footballTeams.add(team);
-		
-		return footballTeams;
+		footballTeamRepository.save(team);
+		footballTeamRepository.flush();
+		return footballTeamRepository.findAll();
 	}
 
 }
