@@ -1,4 +1,4 @@
-package com.va.spring.rest;
+package com.va.spring.rest.controller;
 
 import java.util.List;
 
@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.va.spring.rest.exception.ErrorResponse;
+import com.va.spring.rest.exception.FootballTeamException;
+import com.va.spring.rest.exception.FootballTeamNotFoundException;
 import com.va.spring.rest.model.FootballTeam;
+import com.va.spring.rest.repository.FootballTeamRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

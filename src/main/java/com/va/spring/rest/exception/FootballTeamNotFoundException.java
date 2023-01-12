@@ -1,13 +1,13 @@
-package com.va.spring.rest;
+package com.va.spring.rest.exception;
 
-public class FootballTeamException extends Exception{
+public class FootballTeamNotFoundException extends Exception{
 
 	private String errorMessage;
 	 
 	public String getErrorMessage() {
 		return errorMessage;
 	}
-	public FootballTeamException(String errorMessage) {
+	public FootballTeamNotFoundException(String errorMessage) {
 		super(errorMessage);
 		this.errorMessage = errorMessage;
 	}

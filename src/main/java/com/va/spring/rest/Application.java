@@ -10,6 +10,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
 import com.va.spring.rest.model.FootballTeam;
+import com.va.spring.rest.repository.FootballTeamRepository;
 
 @SpringBootApplication
 public class Application {
@@ -22,7 +23,7 @@ public class Application {
     }
     
     /* Init db data.
-     * TODO init via sql - https://www.baeldung.com/spring-boot-data-sql-and-schema-sql
+     * TODO init via sql - https://www.baeldung.com/spring-boot-h2-database
      */
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) throws ParseException {

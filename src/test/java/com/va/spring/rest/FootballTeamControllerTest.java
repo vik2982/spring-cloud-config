@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.va.spring.rest.controller.FootballTeamController;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(FootballTeamController.class)
 public class FootballTeamControllerTest {
