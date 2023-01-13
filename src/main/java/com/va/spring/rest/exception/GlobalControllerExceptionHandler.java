@@ -8,22 +8,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-   
-    @ExceptionHandler(FootballTeamException.class)
-    public ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
+  @ExceptionHandler(FootballTeamException.class)
+  public ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
 
-        ErrorResponse error = new ErrorResponse();
-        error.setMessage(ex.getMessage());
-        return new ResponseEntity<ErrorResponse>(error, HttpStatus.SERVICE_UNAVAILABLE);
+    ErrorResponse error = new ErrorResponse();
+    error.setMessage(ex.getMessage());
+    return new ResponseEntity<ErrorResponse>(error, HttpStatus.SERVICE_UNAVAILABLE);
 
-    }
-    
-    @ExceptionHandler(FootballTeamNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleTeamNotFound(Exception ex) {
+  }
 
-        ErrorResponse error = new ErrorResponse();
-        error.setMessage(ex.getMessage());
-        return new ResponseEntity<ErrorResponse>(error, HttpStatus.NOT_FOUND);
+  @ExceptionHandler(FootballTeamNotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleTeamNotFound(Exception ex) {
 
-    }
+    ErrorResponse error = new ErrorResponse();
+    error.setMessage(ex.getMessage());
+    return new ResponseEntity<ErrorResponse>(error, HttpStatus.NOT_FOUND);
+
+  }
 }

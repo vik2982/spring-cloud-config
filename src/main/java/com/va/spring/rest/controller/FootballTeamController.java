@@ -26,68 +26,68 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 public class FootballTeamController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(FootballTeamController.class);
 
-	private static final String ASC = "asc";
-	private static final String DESC = "desc";
-		
-	@Autowired
-	FootballTeamRepository footballTeamRepository;
+  private static final Logger logger = LoggerFactory.getLogger(FootballTeamController.class);
+  private static final String ASC = "asc";
+  private static final String DESC = "desc";
 
+  @Autowired
+  FootballTeamRepository footballTeamRepository;
 
-	@GetMapping
-	public List<FootballTeam> allTeams() {
-		
-		return footballTeamRepository.findAll();
-	}
-	
-	@Operation(summary = "Get a team by its name")
-	@ApiResponses(value = { 
-	  @ApiResponse(responseCode = "200", description = "Found the team", 
-	    content = { @Content(mediaType = "application/json", 
-	      schema = @Schema(implementation = FootballTeam.class)) }),
-	  @ApiResponse(responseCode = "404", description = "Team not found", 
-	    content = { @Content(mediaType = "application/json", 
-	      schema = @Schema(implementation = ErrorResponse.class)) }) })
-	@GetMapping("/{team}")
-	public FootballTeam getTeam(@PathVariable("team") String team) throws FootballTeamNotFoundException {
-		
-		FootballTeam returnTeam =  footballTeamRepository.findByName(team);
-		
-		if (returnTeam != null){
-			return returnTeam;
-		}
-		logger.error("Team not found for provided path variable");
-		throw new FootballTeamNotFoundException("No Team found");
-	}
-	
-	
-	@GetMapping("/capacity")
-	public List<FootballTeam> sortByCapacity(@RequestParam("sort") String sort) throws FootballTeamException {
-		
-		if (sort.equals(ASC)){
-			return footballTeamRepository.findByOrderByStadiumCapacityAsc();
-		}else if (sort.equals(DESC)){
-			return footballTeamRepository.findByOrderByStadiumCapacityDesc();
-		}
-		
-		logger.error("Invalid query param");
-		throw new FootballTeamException("Invalid query param");
-	}
-	
-	@PostMapping("/create")
-	public List<FootballTeam> createTeam(@RequestBody FootballTeam team) throws FootballTeamException {
-		
-		List<FootballTeam> footballTeams = footballTeamRepository.findAll();
-		if (footballTeams.contains(team)){	
-			logger.error("Cannot create team as it already exists");
-			throw new FootballTeamException("Team already exists");
-		}
-		
-		footballTeamRepository.save(team);
-		footballTeamRepository.flush();
-		return footballTeamRepository.findAll();
-	}
+  @GetMapping
+  public List<FootballTeam> allTeams() {
+
+    return footballTeamRepository.findAll();
+  }
+
+  @Operation(summary = "Get a team by its name")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Found the team",
+          content = {@Content(mediaType = "application/json",
+              schema = @Schema(implementation = FootballTeam.class))}),
+      @ApiResponse(responseCode = "404", description = "Team not found",
+          content = {@Content(mediaType = "application/json",
+              schema = @Schema(implementation = ErrorResponse.class))})})
+  @GetMapping("/{team}")
+  public FootballTeam getTeam(@PathVariable("team") String team)
+      throws FootballTeamNotFoundException {
+
+    FootballTeam returnTeam = footballTeamRepository.findByName(team);
+
+    if (returnTeam != null) {
+      return returnTeam;
+    }
+    logger.error("Team not found for provided path variable");
+    throw new FootballTeamNotFoundException("No Team found");
+  }
+
+  @GetMapping("/capacity")
+  public List<FootballTeam> sortByCapacity(@RequestParam("sort") String sort)
+      throws FootballTeamException {
+
+    if (sort.equals(ASC)) {
+      return footballTeamRepository.findByOrderByStadiumCapacityAsc();
+    } else if (sort.equals(DESC)) {
+      return footballTeamRepository.findByOrderByStadiumCapacityDesc();
+    }
+
+    logger.error("Invalid query param");
+    throw new FootballTeamException("Invalid query param");
+  }
+
+  @PostMapping("/create")
+  public List<FootballTeam> createTeam(@RequestBody FootballTeam team)
+      throws FootballTeamException {
+
+    List<FootballTeam> footballTeams = footballTeamRepository.findAll();
+    if (footballTeams.contains(team)) {
+      logger.error("Cannot create team as it already exists");
+      throw new FootballTeamException("Team already exists");
+    }
+
+    footballTeamRepository.save(team);
+    footballTeamRepository.flush();
+    return footballTeamRepository.findAll();
+  }
 
 }

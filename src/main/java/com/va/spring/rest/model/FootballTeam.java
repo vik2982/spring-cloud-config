@@ -14,47 +14,48 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class FootballTeam {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
-	private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-	private String city;
+  private String name;
 
-	private String owner;
+  private String city;
 
-	private int stadiumCapacity;
+  private String owner;
 
-	private String competition;
+  private int stadiumCapacity;
 
-	private int numberOfPlayers;
+  private String competition;
 
-	@JsonFormat(pattern="dd/MM/yyyy")
-	private Date dateOfCreation;
-	
-	public FootballTeam(String name, String city, String owner, int stadiumCapacity, String competition, int numberOfPlayers, Date dateOfCreation) {
-        this.name = name;
-        this.city = city;
-        this.owner = owner;
-        this.stadiumCapacity = stadiumCapacity;
-        this.competition = competition;
-        this.numberOfPlayers = numberOfPlayers;
-        this.dateOfCreation = dateOfCreation;
-    }
-	
-	
-	public boolean equals (Object footballTeam){
-		FootballTeam team = (FootballTeam) footballTeam;
-		return name.equalsIgnoreCase(team.getName());
-	}
-	
-	public int hashCode(){
-		return name.toUpperCase().hashCode();
-	}
-	
+  private int numberOfPlayers;
+
+  @JsonFormat(pattern = "dd/MM/yyyy")
+  private Date dateOfCreation;
+
+  public FootballTeam(String name, String city, String owner, int stadiumCapacity,
+      String competition, int numberOfPlayers, Date dateOfCreation) {
+    this.name = name;
+    this.city = city;
+    this.owner = owner;
+    this.stadiumCapacity = stadiumCapacity;
+    this.competition = competition;
+    this.numberOfPlayers = numberOfPlayers;
+    this.dateOfCreation = dateOfCreation;
+  }
+
+  public boolean equals(Object footballTeam) {
+    FootballTeam team = (FootballTeam) footballTeam;
+    return name.equalsIgnoreCase(team.getName());
+  }
+
+  public int hashCode() {
+    return name.toUpperCase().hashCode();
+  }
 
 }
