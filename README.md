@@ -57,7 +57,7 @@ password is empty
 
 ### Tools used
 Predominantly used Spring Boot for following reasons:
-* Simple to create production grade stand-alone applications
+* Simple to create production grade standalone applications
 * Easy dependency management - makes pom easy to read
 * Embedded servlet container support
 * @RestController renders JSON response by default
