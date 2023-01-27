@@ -46,6 +46,11 @@ pipeline {
             }
         }
         stage('Upload docker image'){
+            when{
+                expression{
+                    BRANCH_NAME == 'master'
+                }
+            }
             steps{
                 script{
                 	sh 'docker build -t vikrantardhawa/footie-app:1.0 .'
@@ -57,5 +62,16 @@ pipeline {
                 }
             }
         }
-    }   
+    }
+    post{
+        always{
+            echo 'always'
+        }
+        success{
+            echo 'success'
+        }
+        failure{
+            echo 'failure - send email to build team'
+        }
+    }
 }
