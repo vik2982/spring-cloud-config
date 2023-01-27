@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    parameters{
+        booleanParam(name: 'TOGGLE_SONAR', defaultValue: true, description: 'Toggle sonar')
+    }
     tools {
         maven "3.8.6" // You need to add a maven with name "3.8.6" in the Global Tools Configuration page
     }
@@ -14,6 +17,11 @@ pipeline {
             }
         }
         stage ('Sonar') {
+            when{
+                expression{
+                    params.TOGGLE_SONAR
+                }
+            }
             steps {
                withSonarQubeEnv(installationName: 'Sonar', credentialsId: 'sonarqube-token') {
                 sh 'mvn sonar:sonar'
