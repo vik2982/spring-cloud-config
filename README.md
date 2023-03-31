@@ -55,9 +55,3 @@ Database url: jdbc:h2:mem:testdb
 username: sa  
 password is empty  
 
-### Tools used
-Predominantly used Spring Boot for following reasons:
-* Simple to create production grade standalone applications
-* Easy dependency management - makes pom simple to read
-* Embedded servlet container support
-* @RestController renders JSON response by default
