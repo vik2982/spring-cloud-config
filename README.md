@@ -20,7 +20,7 @@ java -jar -Dspring.profiles.active=dev -Dserver.port=8080 target/football-team-r
 ```
 mvn clean package
 docker build -t footie-app:1.0 .
-docker-compose -f docker-compose.yaml up -d
+docker-compose up -d
 ```
 
 NOTE: When running docker locally port 8080 is used by default as specified in docker-compose.yaml.  In the jenkins pipeline the port is set in the jenkinsFile - environment variable HOST_PORT
