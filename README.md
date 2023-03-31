@@ -13,7 +13,7 @@ Open a command prompt and in the same directory as the pom run:
 mvn spring-boot:run -Dspring-boot.run.profiles=dev  (runs dev profile with debug log levels and access to h2 console)
 OR
 mvn clean package 
-java -jar -Dspring.profiles.active=dev target/football-team-rest-service-1.0.jar
+java -jar -Dspring.profiles.active=dev -Dserver.port=8083 target/football-team-rest-service-1.0.jar
 ```
 
 #### Docker
