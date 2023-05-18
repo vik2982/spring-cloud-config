@@ -1,7 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-football-team-rest-service,com.va.spring.rest.exception,GlobalControllerExceptionHandler,28,3,0,0,6,1,2,1,2,1
-football-team-rest-service,com.va.spring.rest.exception,ErrorResponse,10,0,0,0,4,0,3,0,3,0
-football-team-rest-service,com.va.spring.rest.exception,FootballTeamNotFoundException,10,0,0,0,4,0,2,0,2,0
-football-team-rest-service,com.va.spring.rest.exception,FootballTeamException,10,0,0,0,4,0,2,0,2,0
-football-team-rest-service,com.va.spring.rest,Application,5,57,0,0,2,9,1,2,1,2
-football-team-rest-service,com.va.spring.rest.controller,FootballTeamController,64,16,7,1,16,5,7,3,3,3
