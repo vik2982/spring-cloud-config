@@ -7,7 +7,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<!-- <module>spring-boot-docker</module> -->
+		<module>spring-boot-docker</module>
 		<module>spring-cloud-config-server</module>
+		<module>spring-cloud-config-client</module>
 	</modules>
 </project>
