@@ -1,4 +1,4 @@
-# Spring boot rest controller example
+# Spring boot with docker example
 
 ### Prerequisites
 
