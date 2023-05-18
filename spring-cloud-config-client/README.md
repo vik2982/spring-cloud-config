@@ -7,10 +7,12 @@
 
 ### How to Run
 
+```
 mvn spring-boot:run -Dspring-boot.run.profiles=development   
 OR  
 mvn clean package   
 java -jar -Dspring.profiles.active=development -Dserver.port=8080 target/spring-cloud-config-client-1.0.jar  
+```
 
 Navigate to: http://localhost:8080/whoami/Mr_Pink
 
