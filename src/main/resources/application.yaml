@@ -1,6 +1,0 @@
-logging:
-  level:
-    root: ERROR
-    org.springframework.web: ERROR
-    com.va.spring.rest: ERROR
-    org.hibernate: ERROR
