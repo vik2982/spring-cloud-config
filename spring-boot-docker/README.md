@@ -4,6 +4,7 @@
 
 * JDK 11
 * Maven 3.0+
+* Latest Docker installation
 
 ### How to Run
 
