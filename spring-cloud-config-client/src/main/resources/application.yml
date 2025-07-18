@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: "config-client"
+  #profiles:
+    #active: development
+  config:
+    import: "configserver:http://localhost:8888/"
+  #cloud:
+    #config:
+      #label: 1.1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    configprops:
+      show-values: ALWAYS
+    env:
+      show-values: ALWAYS
